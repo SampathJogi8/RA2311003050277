@@ -1,44 +1,62 @@
 # Notification System Design
 
 ## Overview
-This document outlines the architecture and design of the notification system.
+This document outlines the architecture and design of the campus notification system built for Affordmed's Campus Hiring Evaluation.
 
 ## Components
 
 ### 1. Logging Middleware
-- Request/response logging
-- Error tracking
-- Performance monitoring
+- Reusable TypeScript package
+- Sends logs to Affordmed's evaluation server
+- Used throughout frontend and backend
+- Log function signature: Log(stack, level, package, message)
 
 ### 2. Backend (notification_app_be)
-- API endpoints for notification management
-- Database integration
-- Business logic
+- Priority inbox algorithm
+- Fetches notifications from evaluation server
+- Ranks notifications by weight and recency
 
 ### 3. Frontend (notification_app_fe)
-- User interface for notifications
-- Real-time notification display
-- User preferences management
+- React/Next.js application
+- Displays all notifications with filtering
+- Priority inbox view with top N notifications
+- Material UI for styling
 
 ## Architecture
 
 ### Tech Stack
-- Backend: Node.js / Express (or preferred framework)
-- Frontend: React / Vue (or preferred framework)
-- Database: MongoDB / PostgreSQL (to be decided)
-- Logging: Winston / Bunyan (or preferred logger)
+- Frontend: Next.js / React with TypeScript
+- Styling: Material UI
+- Logging: Custom logging middleware (TypeScript)
+- API: Affordmed Evaluation Server
 
 ### Key Features
-- Real-time notifications
-- Persistent storage
-- User notification preferences
-- Notification history
+- Priority inbox based on notification type and recency
+- Filter notifications by type (Result, Placement, Event)
+- Real-time notification display
+- Mandatory logging throughout codebase
 
-## API Endpoints
-(To be defined)
+## Stage 1
 
-## Database Schema
-(To be defined)
+### Priority Inbox Algorithm
 
-## Deployment
-(To be defined)
+#### Approach
+Notifications are ranked using a combination of type weight and recency.
+
+#### Weight System
+- Result → 3 (highest)
+- Placement → 2
+- Event → 1 (lowest)
+
+#### Priority Score Formula
+Priority Score = (Type Weight × 10^13) + Timestamp in milliseconds
+
+#### Why this works
+- Weight ensures Result always ranks above Placement and Event
+- Timestamp breaks ties within same type — newer notifications rank higher
+- Top N is configurable (default 10, can be 15, 20, etc.)
+
+#### Handling new notifications
+- Algorithm re-fetches and re-sorts on every call
+- Always maintains correct top N efficiently
+- No database needed — stateless computation on every fetch
