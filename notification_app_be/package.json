@@ -1,0 +1,17 @@
+{
+  "name": "notification_app_be",
+  "version": "1.0.0",
+  "description": "Backend application for the notification system.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "axios": "^1.15.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.3"
+  }
+}
