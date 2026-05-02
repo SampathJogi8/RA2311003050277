@@ -5,8 +5,8 @@ type Stack = "backend" | "frontend";
 type Level = "debug" | "info" | "warn" | "error" | "fatal";
 
 // Backend only packages
-type BackendPackage = "cache" | "controller" | "cron_job" | 
-                      "handler" | "repository" | "route" | "service";
+type BackendPackage = "cache" | "controller" | "cron_job" |
+  "handler" | "repository" | "route" | "service";
 
 // Frontend only packages
 type FrontendPackage = "api" | "page" | "state" | "style";
@@ -16,7 +16,7 @@ type SharedPackage = "auth" | "config" | "middleware" | "utils";
 
 type Package = BackendPackage | FrontendPackage | SharedPackage;
 
-const BASE_URL = "http://20.244.56.144/evaluation-service";
+const BASE_URL = "http://20.207.122.201/evaluation-service";
 
 let authToken: string = "";
 
